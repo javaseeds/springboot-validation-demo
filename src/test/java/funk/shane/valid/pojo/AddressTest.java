@@ -12,24 +12,19 @@ import javax.validation.ConstraintViolation;
 
 import org.hibernate.validator.HibernateValidator;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import funk.shane.valid.util.Utils;
+import funk.shane.valid.util.*;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class AddressTest {
     private Address address;
+
+    @Autowired
     private LocalValidatorFactoryBean factoryBean;
-
-    @Bean
-    public void setup() {
-        factoryBean = new LocalValidatorFactoryBean();
-        factoryBean.setProviderClass(HibernateValidator.class);
-
-        factoryBean.afterPropertiesSet();
-    }
 
     /**
      * The first test of the validation is that all validations pass.  Here, all the Address class 

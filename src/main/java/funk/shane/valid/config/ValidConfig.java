@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import org.hibernate.validator.HibernateValidator;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,8 +34,13 @@ public class ValidConfig {
 		return new DefaultFormattingConversionService();
     }
 	
+	@Bean
 	public LocalValidatorFactoryBean factoryBean() {
+		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
+		factoryBean.setProviderClass(HibernateValidator.class);
+		factoryBean.afterPropertiesSet();
 
+		return factoryBean;
 	}
 	
 	@Bean
