@@ -19,7 +19,7 @@ public class Utils {
     new ObjectMapper().disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
 	public static String readJson(final String fileName) throws IOException {
-		return FileUtils.readFileToString(new ClassPathResource("/com/springventuregroup/leads/" + fileName, Utils.class).getFile(),
+		return FileUtils.readFileToString(new ClassPathResource("/funk/shane/pojo/" + fileName, Utils.class).getFile(),
 			StandardCharsets.UTF_8);
 	}
 

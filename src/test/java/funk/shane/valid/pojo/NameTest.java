@@ -8,11 +8,16 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import funk.shane.valid.util.Utils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class NameTest {
+    @Autowired
+    private LocalValidatorFactoryBean factoryBean;
 
     @Test
     void testHappyPath() {
@@ -20,7 +25,7 @@ public class NameTest {
         assertNotNull(testName);
         log.info("testName: {}", testName);
 
-        final Set<ConstraintViolation<Name>> violations = validator.validate(testName);
+        final Set<ConstraintViolation<Name>> violations = factoryBean.validate(testName);
         assertEquals(0, violations.size());
     }
 
@@ -29,7 +34,7 @@ public class NameTest {
         final Name badName = getTestName("name-1.json");
         badName.setFirstName("");
 
-        final Set<ConstraintViolation<Name>> violations = validator.validate(badName);
+        final Set<ConstraintViolation<Name>> violations = factoryBean.validate(badName);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Name> nameViolation = violations.iterator().next();
@@ -41,7 +46,7 @@ public class NameTest {
         final Name badName = getTestName("name-1.json");
         badName.setFirstName(null);
 
-        final Set<ConstraintViolation<Name>> violations = validator.validate(badName);
+        final Set<ConstraintViolation<Name>> violations = factoryBean.validate(badName);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Name> nameViolation = violations.iterator().next();
@@ -54,7 +59,7 @@ public class NameTest {
         final Name badName = getTestName("name-1.json");
         badName.setLastName("");
 
-        final Set<ConstraintViolation<Name>> violations = validator.validate(badName);
+        final Set<ConstraintViolation<Name>> violations = factoryBean.validate(badName);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Name> nameViolation = violations.iterator().next();
@@ -66,7 +71,7 @@ public class NameTest {
         final Name badName = getTestName("name-1.json");
         badName.setLastName(null);
 
-        final Set<ConstraintViolation<Name>> violations = validator.validate(badName);
+        final Set<ConstraintViolation<Name>> violations = factoryBean.validate(badName);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Name> nameViolation = violations.iterator().next();

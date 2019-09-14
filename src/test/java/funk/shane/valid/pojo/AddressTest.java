@@ -10,13 +10,11 @@ import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolation;
 
-import org.hibernate.validator.HibernateValidator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import funk.shane.valid.util.*;
+import funk.shane.valid.util.Utils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

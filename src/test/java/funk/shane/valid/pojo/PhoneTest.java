@@ -8,12 +8,17 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import funk.shane.valid.util.Utils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class PhoneTest {
+
+    @Autowired
+    private LocalValidatorFactoryBean factoryBean;
 
     /**
      * The first test of the validation is that all validations pass.  Here, all the Phone class 
@@ -26,7 +31,7 @@ public class PhoneTest {
 
         log.info("testPhone: {}", testPhone);
 
-        final Set<ConstraintViolation<Phone>> violations = validator.validate(testPhone);
+        final Set<ConstraintViolation<Phone>> violations = factoryBean.validate(testPhone);
         assertEquals(0, violations.size());
     }
 
@@ -35,7 +40,7 @@ public class PhoneTest {
         final Phone badPhone = getTestPhone("phone-1.json");
         badPhone.setCountryCode(-1);
 
-        final Set<ConstraintViolation<Phone>> violations = validator.validate(badPhone);
+        final Set<ConstraintViolation<Phone>> violations = factoryBean.validate(badPhone);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Phone> phoneViolation = violations.iterator().next();
@@ -47,7 +52,7 @@ public class PhoneTest {
         final Phone badPhone = getTestPhone("phone-1.json");
         badPhone.setAreaCode(200);
 
-        final Set<ConstraintViolation<Phone>> violations = validator.validate(badPhone);
+        final Set<ConstraintViolation<Phone>> violations = factoryBean.validate(badPhone);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Phone> phoneViolation = violations.iterator().next();
@@ -59,7 +64,7 @@ public class PhoneTest {
         final Phone badPhone = getTestPhone("phone-1.json");
         badPhone.setAreaCode(1000);
 
-        final Set<ConstraintViolation<Phone>> violations = validator.validate(badPhone);
+        final Set<ConstraintViolation<Phone>> violations = factoryBean.validate(badPhone);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Phone> phoneViolation = violations.iterator().next();
@@ -71,7 +76,7 @@ public class PhoneTest {
         final Phone badPhone = getTestPhone("phone-1.json");
         badPhone.setPrefix(100);
 
-        final Set<ConstraintViolation<Phone>> violations = validator.validate(badPhone);
+        final Set<ConstraintViolation<Phone>> violations = factoryBean.validate(badPhone);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Phone> phoneViolation = violations.iterator().next();
@@ -83,7 +88,7 @@ public class PhoneTest {
         final Phone badPhone = getTestPhone("phone-1.json");
         badPhone.setPrefix(1000);
 
-        final Set<ConstraintViolation<Phone>> violations = validator.validate(badPhone);
+        final Set<ConstraintViolation<Phone>> violations = factoryBean.validate(badPhone);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Phone> phoneViolation = violations.iterator().next();
@@ -95,7 +100,7 @@ public class PhoneTest {
         final Phone badPhone = getTestPhone("phone-1.json");
         badPhone.setSuffix(-1);
 
-        final Set<ConstraintViolation<Phone>> violations = validator.validate(badPhone);
+        final Set<ConstraintViolation<Phone>> violations = factoryBean.validate(badPhone);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Phone> phoneViolation = violations.iterator().next();
@@ -107,7 +112,7 @@ public class PhoneTest {
         final Phone badPhone = getTestPhone("phone-1.json");
         badPhone.setSuffix(10000);
 
-        final Set<ConstraintViolation<Phone>> violations = validator.validate(badPhone);
+        final Set<ConstraintViolation<Phone>> violations = factoryBean.validate(badPhone);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Phone> phoneViolation = violations.iterator().next();
@@ -122,7 +127,7 @@ public class PhoneTest {
         badPhone.setPrefix(99999);
         badPhone.setSuffix(99999);
 
-        final Set<ConstraintViolation<Phone>> violations = validator.validate(badPhone);
+        final Set<ConstraintViolation<Phone>> violations = factoryBean.validate(badPhone);
         assertEquals(4, violations.size());
     }
 

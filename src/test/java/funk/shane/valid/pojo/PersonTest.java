@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import funk.shane.valid.util.Utils;
 import lombok.extern.slf4j.Slf4j;
@@ -16,13 +18,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PersonTest {
 
+    @Autowired
+    private LocalValidatorFactoryBean factoryBean;
+    
     @Test
     void testHappyPath() {
         final Person testPerson = getTestPerson("person-1.json");
         assertNotNull(testPerson);
         log.info("testPerson: {}", testPerson);
 
-        final Set<ConstraintViolation<Person>> violations = validator.validate(testPerson);
+        final Set<ConstraintViolation<Person>> violations = factoryBean.validate(testPerson);
         assertEquals(0, violations.size());
     }
 
@@ -31,7 +36,7 @@ public class PersonTest {
         final Person badPerson = getTestPerson("person-1.json");
         badPerson.setName(null);
 
-        final Set<ConstraintViolation<Person>> violations = validator.validate(badPerson);
+        final Set<ConstraintViolation<Person>> violations = factoryBean.validate(badPerson);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Person> personViolation = violations.iterator().next();
@@ -43,7 +48,7 @@ public class PersonTest {
         final Person badPerson = getTestPerson("person-1.json");
         badPerson.setAddress(null);
 
-        final Set<ConstraintViolation<Person>> violations = validator.validate(badPerson);
+        final Set<ConstraintViolation<Person>> violations = factoryBean.validate(badPerson);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Person> personViolation = violations.iterator().next();
@@ -55,7 +60,7 @@ public class PersonTest {
         final Person badPerson = getTestPerson("person-1.json");
         badPerson.setPhone(null);
 
-        final Set<ConstraintViolation<Person>> violations = validator.validate(badPerson);
+        final Set<ConstraintViolation<Person>> violations = factoryBean.validate(badPerson);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Person> nameViolation = violations.iterator().next();
@@ -67,7 +72,7 @@ public class PersonTest {
         final Person badPerson = getTestPerson("person-1.json");
         badPerson.setBirthDate(null);
 
-        final Set<ConstraintViolation<Person>> violations = validator.validate(badPerson);
+        final Set<ConstraintViolation<Person>> violations = factoryBean.validate(badPerson);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Person> nameViolation = violations.iterator().next();
@@ -79,7 +84,7 @@ public class PersonTest {
         final Person badPerson = getTestPerson("person-1.json");
         badPerson.setBirthDate(LocalDate.now().plusYears(10));
 
-        final Set<ConstraintViolation<Person>> violations = validator.validate(badPerson);
+        final Set<ConstraintViolation<Person>> violations = factoryBean.validate(badPerson);
         assertEquals(1, violations.size());
 
         ConstraintViolation<Person> nameViolation = violations.iterator().next();
