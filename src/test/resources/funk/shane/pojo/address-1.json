@@ -1,0 +1,8 @@
+{
+    "streetLine1": "123 Main St",
+    "streetLine2": "Suite ABC",
+    "city": "Anytown",
+    "stateCode": "MO",
+    "postalCode": "99999",
+    "endOfLease": "2030-12-31"
+}

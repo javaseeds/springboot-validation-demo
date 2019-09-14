@@ -1,0 +1,23 @@
+{
+    "name" : {
+      "firstName": "Bob",
+      "lastName": "Tomato",
+      "suffix": "III"
+    },
+    "phone" : {
+      "countryCode": 1,
+      "areaCode": 816,
+      "prefix": 555,
+      "suffix": 1212,
+      "extension": null
+    },
+    "address" : {
+      "streetLine1": "123 Main St",
+      "streetLine2": "Suite ABC",
+      "city": "Anytown",
+      "stateCode": "MO",
+      "postalCode": "99999"
+    },
+    "birthDate": "1945-05-15"
+  }
+  
