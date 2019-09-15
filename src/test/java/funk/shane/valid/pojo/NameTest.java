@@ -8,15 +8,14 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import funk.shane.valid.util.Utils;
 import lombok.extern.slf4j.Slf4j;
 
-@RunWith(SpringRunner.class)
+@SpringBootTest
 @Slf4j
 public class NameTest {
     @Autowired

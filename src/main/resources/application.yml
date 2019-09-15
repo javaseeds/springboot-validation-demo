@@ -1,3 +1,5 @@
 spring:
   application:
     name: springboot-valid
+server:
+  port: 13131
