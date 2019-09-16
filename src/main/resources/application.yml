@@ -1,5 +1,24 @@
 spring:
   application:
     name: springboot-valid  
+  jmx:
+    enabled: false  
 server:
   port: 13131
+management:
+  health:
+    jms:
+      enabled: false
+  endpoint:
+    env:
+      enabled: true
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: ["health", "env", "info"]
+      base-path: /
+info:
+  jdk-version: "${java.version} / ${java.vm.name}"
+  host-operating-system: "${os.name} / ${os.version}"    
