@@ -14,3 +14,9 @@ Taking a look at these rules (perhaps more)
 * Before
 * After
 * Pattern
+
+## References
+
+[Spring Boot Actuator]: https://docs.spring.io/spring-boot/docs/2.1.8.RELEASE/reference/html/production-ready-enabling.html
+[Customizing the Actuator]: https://memorynotfound.com/spring-boot-customize-actuator-info-endpoint-example-configuration/
+[Injecting Git Info]: https://www.baeldung.com/spring-git-information
