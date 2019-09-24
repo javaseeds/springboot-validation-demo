@@ -1,3 +1,4 @@
+
 package funk.shane.valid.config;
 
 import java.time.Duration;
