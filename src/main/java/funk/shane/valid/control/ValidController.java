@@ -23,10 +23,52 @@
 
 package funk.shane.valid.control;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import funk.shane.valid.pojo.Person;
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
+@Slf4j
 public class ValidController {
 
-    
+    /**
+     * 
+     * @param person
+     * @return
+     */
+    @PostMapping(path = "", produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> validDemo(@Valid @RequestBody Person person) {
+        log.info("inbound person: {}", person);
+
+        return ResponseEntity.ok(String.format("Spring Boot person [%s] was valid"));
+    }
+
+
+    /**
+     * 
+     * @return
+     */
+    @GetMapping(path = "")
+    public ResponseEntity<Person> getPerson() {
+        return null;
+    }
+
+    /**
+     * https://www.baeldung.com/exception-handling-for-rest-with-spring
+     * Spring recommends having exceptions in their own @ControllerAdvice, but is ok for this simple example
+     */
+    @ExceptionHandler({ConstraintViolationException.class})
+    public void validationErrorHandler() {
+
+    }
 }

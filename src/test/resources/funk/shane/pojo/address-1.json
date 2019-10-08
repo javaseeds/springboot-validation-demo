@@ -1,8 +1,8 @@
 {
-    "streetLine1": "123 Main St",
-    "streetLine2": "Suite ABC",
-    "city": "Anytown",
-    "stateCode": "MO",
-    "postalCode": "99999",
-    "endOfLease": "2030-12-31"
+    "streetLine1": "987 First Blvd",
+    "streetLine2": "Apt 201",
+    "city": "Every Town",
+    "stateCode": "KS",
+    "postalCode": "88888",
+    "endOfLease": "2022-07-31"
 }
