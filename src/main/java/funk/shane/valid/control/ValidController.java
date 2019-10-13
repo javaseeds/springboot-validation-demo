@@ -30,11 +30,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import funk.shane.valid.pojo.Person;
+import funk.shane.valid.util.Utils;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -42,25 +44,31 @@ import lombok.extern.slf4j.Slf4j;
 public class ValidController {
 
     /**
+     * validDemo - REST POST call to "write" a person to a data source (not provided in this demo app)
+     * Only returns a String with either an affirmative valid message or explains why the input was incorrect
      * 
      * @param person
      * @return
      */
-    @PostMapping(path = "", produces = MediaType.TEXT_PLAIN_VALUE)
+    @PostMapping(path = "/v1/valid", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> validDemo(@Valid @RequestBody Person person) {
         log.info("inbound person: {}", person);
 
         return ResponseEntity.ok(String.format("Spring Boot person [%s] was valid"));
     }
 
-
     /**
-     * 
+     * Retrieve a person - even though there's an id sent in, this trivial example doesn't pull from a data source 
+     * in this version
      * @return
      */
-    @GetMapping(path = "")
-    public ResponseEntity<Person> getPerson() {
-        return null;
+    @GetMapping(path = "/v1/get-a-person/{id}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public ResponseEntity<Person> getPerson(@PathVariable String id) {
+        log.info("Get Person with id: [{}]", id);
+        final Person person = Utils.getClassFromJsonResource(Person.class, "person-1.json");
+        log.info("Returning Person: {}", person);
+
+        return ResponseEntity.ok().body(person);
     }
 
     /**

@@ -1,0 +1,24 @@
+{
+    "name" : {
+      "firstName": "Larry",
+      "lastName": "Cucumber",
+      "suffix": "Jr."
+    },
+    "phone" : {
+      "countryCode": 1,
+      "areaCode": 913,
+      "prefix": 867,
+      "suffix": 5309,
+      "extension": null
+    },
+    "address" : {
+      "streetLine1": "987 First Blvd",
+      "streetLine2": "Apt 201",
+      "city": "Every Town",
+      "stateCode": "KS",
+      "postalCode": "88888",
+      "endOfLease": "2022-07-31"
+      },
+    "birthDate": "1948-10-22"
+  }
+  

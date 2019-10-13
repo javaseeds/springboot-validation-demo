@@ -23,8 +23,6 @@
 
 package funk.shane.valid.util;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
@@ -52,7 +50,6 @@ public class Utils {
 			return mapper.readValue(json, klass);
 		} catch (IOException e) {
 			log.error("readJson failed for file [{}]", jsonFile, e);
-			fail(String.format("readJson failed for file [%s]: go fix it", jsonFile));
 			return null;
 		}
   }
