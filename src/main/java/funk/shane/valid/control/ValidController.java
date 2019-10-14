@@ -23,9 +23,13 @@
 
 package funk.shane.valid.control;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -76,7 +80,14 @@ public class ValidController {
      * Spring recommends having exceptions in their own @ControllerAdvice, but is ok for this simple example
      */
     @ExceptionHandler({ConstraintViolationException.class})
-    public void validationErrorHandler() {
+    public ResponseEntity<String> validationErrorHandler(ConstraintViolationException ex) {
+        final List<String> validationStrings = ex.getConstraintViolations()
+            .stream()
+            .map(v -> v.getMessage())
+            .sorted()
+            .collect(Collectors.toList());
+        log.error("Inbound REST call tripped validation error(s) [{}]", validationStrings.toString());
 
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationStrings.toString());
     }
 }
