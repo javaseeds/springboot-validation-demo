@@ -106,6 +106,6 @@ public class NameTest {
 
     /* Generate a test object - change as needed */
     private static Name getTestName(final String jsonFile) {
-        return Utils.getClassFromJsonResource(Name.class, jsonFile);
+        return Utils.getClassFromJsonFile(Name.class, jsonFile);
     }
 }

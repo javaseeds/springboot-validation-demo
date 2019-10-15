@@ -29,28 +29,36 @@ import java.nio.charset.StandardCharsets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.FileCopyUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Utils {
-  private static final ObjectMapper mapper = 
-    new ObjectMapper().disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+	private static final ObjectMapper mapper = new ObjectMapper()
+			.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-	public static String readJson(final String fileName) throws IOException {
-		return FileUtils.readFileToString(new ClassPathResource("/funk/shane/pojo/" + fileName, Utils.class).getFile(),
-			StandardCharsets.UTF_8);
+	public static String getFileContents(final String fileName) {
+		ClassPathResource cpr = new ClassPathResource("/funk/shane/pojo/" + fileName);
+		String str = null;
+		try {
+			byte[] bdata = FileCopyUtils.copyToByteArray(cpr.getInputStream());
+			str = new String(bdata, StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			log.error("IOException occurred: [{}]", e.getMessage(), e);
+		}
+
+		return str;
 	}
 
-  public static <T> T getClassFromJsonResource(Class<T> klass, String jsonFile) {
+	public static <T> T getClassFromJsonFile (Class<T> klass, String jsonFile) {
 		try {
-			final String json = readJson(jsonFile);
+			final String json = getFileContents(jsonFile);
 			return mapper.readValue(json, klass);
 		} catch (IOException e) {
 			log.error("readJson failed for file [{}]", jsonFile, e);
 			return null;
 		}
-  }
+	}
 }

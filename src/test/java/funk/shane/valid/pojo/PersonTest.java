@@ -119,6 +119,6 @@ public class PersonTest {
 
     /* Generate a test object - change as needed */
     private static Person getTestPerson(final String jsonFile) {
-        return Utils.getClassFromJsonResource(Person.class, jsonFile);
+        return Utils.getClassFromJsonFile(Person.class, jsonFile);
     }
 }

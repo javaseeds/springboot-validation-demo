@@ -158,6 +158,6 @@ public class PhoneTest {
 
     /* Generate a test object - change as needed */
     private static Phone getTestPhone(final String jsonFile) {
-        return Utils.getClassFromJsonResource(Phone.class, jsonFile);
+        return Utils.getClassFromJsonFile(Phone.class, jsonFile);
     }
 }

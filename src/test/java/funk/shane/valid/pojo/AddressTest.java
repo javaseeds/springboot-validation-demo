@@ -232,6 +232,6 @@ public class AddressTest {
 
     /* Generate a test object - change as needed */
     private static Address getTestAddress(final String jsonFile) {
-        return Utils.getClassFromJsonResource(Address.class, jsonFile);
+        return Utils.getClassFromJsonFile(Address.class, jsonFile);
     }
 }
