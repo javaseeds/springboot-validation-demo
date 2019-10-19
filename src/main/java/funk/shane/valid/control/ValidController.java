@@ -68,7 +68,7 @@ public class ValidController {
      * in this version
      * @return
      */
-    @GetMapping(path = "/v1/get-a-person/{id}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @GetMapping(path = "/v1/get-a-person/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Person> getPerson(@PathVariable String id) {
         log.info("Get Person with id: [{}]", id);
         final Person person = Utils.getClassFromJsonFile(Person.class, "person-1.json");

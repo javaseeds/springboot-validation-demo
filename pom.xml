@@ -12,7 +12,7 @@
 	<artifactId>valid</artifactId>
 	<version>1.0.0</version>
 	<name>springboot-validation-demo</name>
-	<description>Spring Boot v2.1.x App demonstrating Validation</description>
+	<description>Spring Boot v2.2.x App demonstrating Validation</description>
 
 	<properties>
 		<java.version>11</java.version>
