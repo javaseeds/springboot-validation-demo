@@ -1,0 +1,379 @@
+# Once I get the maven build successful...
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  7.051 s
+[INFO] Finished at: 2019-11-29T07:43:53-06:00
+[INFO] ------------------------------------------------------------------------
+
+# ....I can run the application
+$ java -jar target/valid-1.0.0.jar 
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.2.1.RELEASE)
+
+[INFO ] 2019-11-29 07:44:04,858 [main] f.s.v.SpringbootValidationDemoApplication line:55 - Starting SpringbootValidationDemoApplication v1.0.0 on shanefunk with PID 24935 (<..>/springboot-validation-demo/target/valid-1.0.0.jar started by shane in <..>/springboot-validation-demo)
+[DEBUG] 2019-11-29 07:44:04,860 [main] f.s.v.SpringbootValidationDemoApplication line:56 - Running with Spring Boot v2.2.1.RELEASE, Spring v5.2.1.RELEASE
+[INFO ] 2019-11-29 07:44:04,861 [main] f.s.v.SpringbootValidationDemoApplication line:651 - No active profile set, falling back to default profiles: default
+[INFO ] 2019-11-29 07:44:05,822 [main] o.s.b.w.e.tomcat.TomcatWebServer line:92 - Tomcat initialized with port(s): 13131 (http)
+[INFO ] 2019-11-29 07:44:05,830 [main] o.a.coyote.http11.Http11NioProtocol line:173 - Initializing ProtocolHandler ["http-nio-13131"]
+[INFO ] 2019-11-29 07:44:05,831 [main] o.a.catalina.core.StandardService line:173 - Starting service [Tomcat]
+[INFO ] 2019-11-29 07:44:05,831 [main] o.a.catalina.core.StandardEngine line:173 - Starting Servlet engine: [Apache Tomcat/9.0.27]
+[INFO ] 2019-11-29 07:44:05,876 [main] o.a.c.c.C.[Tomcat].[localhost].[/] line:173 - Initializing Spring embedded WebApplicationContext
+[INFO ] 2019-11-29 07:44:05,877 [main] o.s.web.context.ContextLoader line:284 - Root WebApplicationContext: initialization completed in 982 ms
+[INFO ] 2019-11-29 07:44:06,164 [main] o.s.s.c.ThreadPoolTaskExecutor line:171 - Initializing ExecutorService 'applicationTaskExecutor'
+[INFO ] 2019-11-29 07:44:06,341 [main] o.s.b.a.e.web.EndpointLinksResolver line:58 - Exposing 3 endpoint(s) beneath base path ''
+[INFO ] 2019-11-29 07:44:06,374 [main] o.a.coyote.http11.Http11NioProtocol line:173 - Starting ProtocolHandler ["http-nio-13131"]
+[INFO ] 2019-11-29 07:44:06,397 [main] o.s.b.w.e.tomcat.TomcatWebServer line:204 - Tomcat started on port(s): 13131 (http) with context path ''
+[INFO ] 2019-11-29 07:44:06,401 [main] f.s.v.SpringbootValidationDemoApplication line:61 - Started SpringbootValidationDemoApplication in 1.864 seconds (JVM running for 2.309)
+...
+
+# Check the application's health
+
+$ http :13131/health
+HTTP/1.1 200 
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Date: Fri, 29 Nov 2019 13:49:45 GMT
+Transfer-Encoding: chunked
+{
+    "components": {
+        "diskSpace": {
+            "details": {
+                "free": 868774891520,
+                "threshold": 10485760,
+                "total": 982900588544
+            },
+            "status": "UP"
+        },
+        "ping": {
+            "status": "UP"
+        }
+    },
+    "status": "UP"
+}
+
+# I've enhanced the /info for a bit more than default - is helpful when apps are deployed on clouds
+
+$ http :13131/info
+HTTP/1.1 200 
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+Date: Fri, 29 Nov 2019 13:50:45 GMT
+Transfer-Encoding: chunked
+{
+    "host-operating-system": "Linux / 5.3.0-23-generic",
+    "jdk-version": "11.0.3 / OpenJDK 64-Bit Server VM",
+    "spring.boot.version": "2.2.1.RELEASE",
+    "tomcat.version": "Apache Tomcat/9.0.27"
+}
+
+# Output of HTTPie call to validate a person object, I happen to already know is correct
+
+$ http :13131/api/v1/valid < cp-person-1.json 
+HTTP/1.1 200 
+Content-Length: 407
+Content-Type: text/plain;charset=UTF-8
+Date: Fri, 29 Nov 2019 13:53:32 GMT
+
+Spring Boot person [{"name":{"firstName":"Bob","lastName":"Tomato","prefix":null,"suffix":"III"},"address":{"streetLine1":"123 Main St","streetLine2":"Suite ABC","streetLine3":null,"city":"Anytown","stateCode":"MO","postalCode":"99999","country":null,"endOfLease":null},"phone":{"countryCode":1,"areaCode":816,"prefix":555,"suffix":1212,"extension":0,"usformatted":null},"birthDate":"1945-05-15"}] was valid
+
+# This is the Logback output of the application for the same call...
+
+[INFO ] 2019-11-29 07:53:32,969 [http-nio-13131-exec-8] f.s.valid.control.ValidController line:61 - inbound person: 
+{"name":{"firstName":"Bob","lastName":"Tomato","prefix":null,"suffix":"III"},"address":{"streetLine1":"123 Main St",
+"streetLine2":"Suite ABC","streetLine3":null,"city":"Anytown","stateCode":"MO","postalCode":"99999","country":null,
+"endOfLease":null},"phone":{"countryCode":1,"areaCode":816,"prefix":555,"suffix":1212,"extension":0,"usformatted":null},
+"birthDate":"1945-05-15"}
+
+# ... which is pretty much the same thing as the REST call response
+
+# Not the shiniest output of an application, however, does show that the payload "was valid"
+
+## 
+## Now, will run three (3) payloads known to be invalid and will show both Response and Logback outputs
+
+## 1 - Blank names sent in:
+$ http :13131/api/v1/valid < cp-person-invalid-1.json
+HTTP/1.1 400 
+Connection: close
+Content-Type: application/json
+Date: Fri, 29 Nov 2019 13:59:30 GMT
+Transfer-Encoding: chunked
+{
+    "error": "Bad Request",
+    "errors": [
+        {
+            "arguments": [
+                {
+                    "arguments": null,
+                    "code": "name.firstName",
+                    "codes": [
+                        "person.name.firstName",
+                        "name.firstName"
+                    ],
+                    "defaultMessage": "name.firstName"
+                }
+            ],
+            "bindingFailure": false,
+            "code": "NotBlank",
+            "codes": [
+                "NotBlank.person.name.firstName",
+                "NotBlank.name.firstName",
+                "NotBlank.firstName",
+                "NotBlank.java.lang.String",
+                "NotBlank"
+            ],
+            "defaultMessage": "First Name is required",
+            "field": "name.firstName",
+            "objectName": "person",
+            "rejectedValue": ""
+        },
+        {
+            "arguments": [
+                {
+                    "arguments": null,
+                    "code": "name.lastName",
+                    "codes": [
+                        "person.name.lastName",
+                        "name.lastName"
+                    ],
+                    "defaultMessage": "name.lastName"
+                }
+            ],
+            "bindingFailure": false,
+            "code": "NotBlank",
+            "codes": [
+                "NotBlank.person.name.lastName",
+                "NotBlank.name.lastName",
+                "NotBlank.lastName",
+                "NotBlank.java.lang.String",
+                "NotBlank"
+            ],
+            "defaultMessage": "Last Name is required",
+            "field": "name.lastName",
+            "objectName": "person",
+            "rejectedValue": ""
+        }
+    ],
+    "message": "Validation failed for object='person'. Error count: 2",
+    "path": "/api/v1/valid",
+    "status": 400,
+    "timestamp": "2019-11-29T13:59:30.552+0000"
+}
+
+[WARN ] 2019-11-29 07:59:30,551 [http-nio-13131-exec-10] o.s.w.s.m.s.DefaultHandlerExceptionResolver line:199 - 
+Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public 
+org.springframework.http.ResponseEntity<java.lang.String> funk.shane.valid.control.ValidController.validDemo(funk.shane.valid.pojo.Person)
+ with 2 errors: [Field error in object 'person' on field 'name.firstName': rejected value []; codes 
+ [NotBlank.person.name.firstName,NotBlank.name.firstName,NotBlank.firstName,NotBlank.java.lang.String,NotBlank]; 
+ arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [person.name.firstName,name.firstName]; 
+ arguments []; default message [name.firstName]]; default message [First Name is required]] [Field error in object 'person' on 
+ field 'name.lastName': rejected value []; codes [NotBlank.person.name.lastName,NotBlank.name.lastName,NotBlank.lastName,NotBlank.java.lang.String,NotBlank]; 
+ arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [person.name.lastName,name.lastName]; arguments []; 
+ default message [name.lastName]]; default message [Last Name is required]] ]
+
+
+# 2 Invalid Area code of the phone number and Postal (Zip) code (based on simple rules I created in the code)
+
+$ http :13131/api/v1/valid < cp-person-invalid-2.json
+HTTP/1.1 400 
+Connection: close
+Content-Type: application/json
+Date: Fri, 29 Nov 2019 14:01:14 GMT
+Transfer-Encoding: chunked
+{
+    "error": "Bad Request",
+    "errors": [
+        {
+            "arguments": [
+                {
+                    "arguments": null,
+                    "code": "phone.prefix",
+                    "codes": [
+                        "person.phone.prefix",
+                        "phone.prefix"
+                    ],
+                    "defaultMessage": "phone.prefix"
+                },
+                101
+            ],
+            "bindingFailure": false,
+            "code": "Min",
+            "codes": [
+                "Min.person.phone.prefix",
+                "Min.phone.prefix",
+                "Min.prefix",
+                "Min.int",
+                "Min"
+            ],
+            "defaultMessage": "Prefix must be greater than 100",
+            "field": "phone.prefix",
+            "objectName": "person",
+            "rejectedValue": 0
+        },
+        {
+            "arguments": [
+                {
+                    "arguments": null,
+                    "code": "phone.areaCode",
+                    "codes": [
+                        "person.phone.areaCode",
+                        "phone.areaCode"
+                    ],
+                    "defaultMessage": "phone.areaCode"
+                },
+                999
+            ],
+            "bindingFailure": false,
+            "code": "Max",
+            "codes": [
+                "Max.person.phone.areaCode",
+                "Max.phone.areaCode",
+                "Max.areaCode",
+                "Max.int",
+                "Max"
+            ],
+            "defaultMessage": "Area Code must be less than 3 digits",
+            "field": "phone.areaCode",
+            "objectName": "person",
+            "rejectedValue": 8166
+        },
+        {
+            "arguments": [
+                {
+                    "arguments": null,
+                    "code": "address.postalCode",
+                    "codes": [
+                        "person.address.postalCode",
+                        "address.postalCode"
+                    ],
+                    "defaultMessage": "address.postalCode"
+                },
+                [],
+                {
+                    "arguments": null,
+                    "codes": [
+                        "^\\d{5}(-\\d{4})?$"
+                    ],
+                    "defaultMessage": "^\\d{5}(-\\d{4})?$"
+                }
+            ],
+            "bindingFailure": false,
+            "code": "Pattern",
+            "codes": [
+                "Pattern.person.address.postalCode",
+                "Pattern.address.postalCode",
+                "Pattern.postalCode",
+                "Pattern.java.lang.String",
+                "Pattern"
+            ],
+            "defaultMessage": "Postal Code in US is 5 digit or 5+4 format",
+            "field": "address.postalCode",
+            "objectName": "person",
+            "rejectedValue": "ABCDE"
+        }
+    ],
+    "message": "Validation failed for object='person'. Error count: 3",
+    "path": "/api/v1/valid",
+    "status": 400,
+    "timestamp": "2019-11-29T14:01:14.597+0000"
+}
+
+[WARN ] 2019-11-29 08:01:14,596 [http-nio-13131-exec-1] o.s.w.s.m.s.DefaultHandlerExceptionResolver line:199 - 
+Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in 
+public org.springframework.http.ResponseEntity<java.lang.String> funk.shane.valid.control.ValidController.validDemo(funk.shane.valid.pojo.Person) 
+with 3 errors: [Field error in object 'person' on field 'phone.prefix': rejected value [0]; codes [Min.person.phone.prefix,Min.phone.prefix,Min.prefix,Min.int,Min]; 
+arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [person.phone.prefix,phone.prefix]; arguments []; default message 
+[phone.prefix],101]; default message [Prefix must be greater than 100]] [Field error in object 'person' on field 'phone.areaCode': rejected value [8166]; 
+codes [Max.person.phone.areaCode,Max.phone.areaCode,Max.areaCode,Max.int,Max]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: 
+codes [person.phone.areaCode,phone.areaCode]; arguments []; default message [phone.areaCode],999]; default message [Area Code must be less than 3 digits]] 
+[Field error in object 'person' on field 'address.postalCode': rejected value [ABCDE]; codes 
+[Pattern.person.address.postalCode,Pattern.address.postalCode,Pattern.postalCode,Pattern.java.lang.String,Pattern]; arguments 
+[org.springframework.context.support.DefaultMessageSourceResolvable: codes [person.address.postalCode,address.postalCode]; arguments []; 
+default message [address.postalCode],[Ljavax.validation.constraints.Pattern$Flag;@44773da,^\d{5}(-\d{4})?$]; default message [Postal Code in 
+US is 5 digit or 5+4 format]] ]
+
+
+# 3 has a Invalid birthdate (in the future) and a rule I created that states an Addresses lease cannot end in the past
+
+$ http :13131/api/v1/valid < cp-person-invalid-3.json
+HTTP/1.1 400 
+Connection: close
+Content-Type: application/json
+Date: Fri, 29 Nov 2019 14:04:19 GMT
+Transfer-Encoding: chunked
+{
+    "error": "Bad Request",
+    "errors": [
+        {
+            "arguments": [
+                {
+                    "arguments": null,
+                    "code": "address.endOfLease",
+                    "codes": [
+                        "person.address.endOfLease",
+                        "address.endOfLease"
+                    ],
+                    "defaultMessage": "address.endOfLease"
+                }
+            ],
+            "bindingFailure": false,
+            "code": "FutureOrPresent",
+            "codes": [
+                "FutureOrPresent.person.address.endOfLease",
+                "FutureOrPresent.address.endOfLease",
+                "FutureOrPresent.endOfLease",
+                "FutureOrPresent.java.time.LocalDate",
+                "FutureOrPresent"
+            ],
+            "defaultMessage": "End of lease cannot be in the past",
+            "field": "address.endOfLease",
+            "objectName": "person",
+            "rejectedValue": "1969-11-11"
+        },
+        {
+            "arguments": [
+                {
+                    "arguments": null,
+                    "code": "birthDate",
+                    "codes": [
+                        "person.birthDate",
+                        "birthDate"
+                    ],
+                    "defaultMessage": "birthDate"
+                }
+            ],
+            "bindingFailure": false,
+            "code": "Past",
+            "codes": [
+                "Past.person.birthDate",
+                "Past.birthDate",
+                "Past.java.time.LocalDate",
+                "Past"
+            ],
+            "defaultMessage": "Person's birthday cannot be in present or the future",
+            "field": "birthDate",
+            "objectName": "person",
+            "rejectedValue": "2045-05-15"
+        }
+    ],
+    "message": "Validation failed for object='person'. Error count: 2",
+    "path": "/api/v1/valid",
+    "status": 400,
+    "timestamp": "2019-11-29T14:04:19.097+0000"
+}
+
+WARN ] 2019-11-29 08:04:19,096 [http-nio-13131-exec-2] o.s.w.s.m.s.DefaultHandlerExceptionResolver line:199 - Resolved 
+[org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in 
+public org.springframework.http.ResponseEntity<java.lang.String> funk.shane.valid.control.ValidController.validDemo(funk.shane.valid.pojo.Person) 
+with 2 errors: [Field error in object 'person' on field 'address.endOfLease': rejected value [1969-11-11]; codes [FutureOrPresent.person.address.endOfLease,
+FutureOrPresent.address.endOfLease,FutureOrPresent.endOfLease,FutureOrPresent.java.time.LocalDate,FutureOrPresent]; 
+arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [person.address.endOfLease,address.endOfLease]; 
+arguments []; default message [address.endOfLease]]; default message [End of lease cannot be in the past]] [Field error in object 'person' 
+on field 'birthDate': rejected value [2045-05-15]; codes [Past.person.birthDate,Past.birthDate,Past.java.time.LocalDate,Past]; arguments 
+[org.springframework.context.support.DefaultMessageSourceResolvable: codes [person.birthDate,birthDate]; arguments []; default message [birthDate]]; 
+default message [Person's birthday cannot be in present or the future]] ]

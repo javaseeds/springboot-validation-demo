@@ -1,11 +1,20 @@
 <configuration>
-
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>[%-5level] %d [%t] %logger{36} line:%L - %m%n%ex{5}</pattern>
         </encoder>
     </appender>
-
+    
+    <logger name="funk.shane" level="DEBUG"></logger>
+    <logger name="org.springframework" level="INFO" />
+	<logger name="com.openpojo" level="WARN" />
+	<logger name="com.openpojo.reflection.java.packageloader.env" level="ERROR" />
+	<logger name="com.athaydes.spockframework.report" level="INFO" />
+	<logger name="com.athaydes.spockframework.report.internal.ConfigLoader" level="WARN" />
+	<logger	name="com.springventuregroup" level="INFO" />
+	<logger	name="org.springframework.context" level="WARN" />
+	<logger	name="org.springframework.test.context" level="WARN" />
+	<logger	name="org.springframework.beans.factory" level="WARN" />
     <root level="info">
         <appender-ref ref="CONSOLE" />
     </root>

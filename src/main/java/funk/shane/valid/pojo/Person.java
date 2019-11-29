@@ -25,6 +25,7 @@ package funk.shane.valid.pojo;
 
 import java.time.LocalDate;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -42,12 +43,15 @@ import lombok.Setter;
 
 @Getter @Setter @EqualsAndHashCode
 public class Person {
+    @Valid
     @NotNull(message = "Person requires a name")
     private Name name;
 
+    @Valid
     @NotNull(message = "Person requires an address")
     private Address address;
 
+    @Valid
     @NotNull(message = "Person requires a phone number")
     private Phone phone;
 

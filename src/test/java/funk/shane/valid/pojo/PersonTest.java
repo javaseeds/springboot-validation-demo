@@ -51,7 +51,7 @@ public class PersonTest {
     void testHappyPath() {
         final Person testPerson = getTestPerson("person-1.json");
         assertNotNull(testPerson);
-        log.info("testPerson: {}", testPerson);
+        log.debug("testPerson: {}", testPerson);
 
         final Set<ConstraintViolation<Person>> violations = factoryBean.validate(testPerson);
         assertEquals(0, violations.size());
@@ -67,6 +67,7 @@ public class PersonTest {
 
         ConstraintViolation<Person> personViolation = violations.iterator().next();
         assertEquals("Person requires a name", personViolation.getMessage());    
+        log.debug(" > violation: [{}]", personViolation.getMessage());
     }
 
     @Test
