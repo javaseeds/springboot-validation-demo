@@ -1,6 +1,6 @@
 # Spring Boot Validation Demo
 
-This demo will show how to build out and fully unit test a simple code build with Spring Boot v2.2.1 using Hibernate's Validation framwork.
+This demo will show how to build out and fully unit test a simple code build with Spring Boot v2.2.2 using Hibernate's Validation framwork.
 
 Many of the standard validation rules will be shown including in the unit test why they "failed".
 
