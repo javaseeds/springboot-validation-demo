@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.5.RELEASE</version>
+		<version>2.3.0.RELEASE</version>
 		<relativePath />
 		<!-- lookup parent from repository -->
 	</parent>
@@ -12,7 +12,7 @@
 	<artifactId>valid</artifactId>
 	<version>1.0.0</version>
 	<name>springboot-validation-demo</name>
-	<description>Spring Boot v2.2.x App demonstrating Validation</description>
+	<description>Spring Boot v2.3.x App demonstrating Validation</description>
 
 	<properties>
 		<java.version>11</java.version>
@@ -25,12 +25,16 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.9</version>
+			<version>3.10</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -52,7 +56,7 @@
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
-			<version>3.15.0</version>
+			<version>3.16.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
